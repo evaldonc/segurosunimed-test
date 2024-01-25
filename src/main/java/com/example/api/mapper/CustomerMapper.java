@@ -1,21 +1,20 @@
 package com.example.api.mapper;
 
 import com.example.api.domain.Customer;
-import com.example.api.domain.dto.CustomerDto;
+import com.example.api.domain.dto.CustomerResponse;
 import org.mapstruct.Mapper;
 
-import java.util.Collection;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
-    Customer dtoToEntity(CustomerDto dto);
+    Customer dtoToEntity(CustomerResponse dto);
 
-    CustomerDto entityToDto(Customer entity);
+    CustomerResponse entityToDto(Customer entity);
 
-    List<CustomerDto> listEntityToListDto(List<Customer> collectionCustomer);
+    List<CustomerResponse> listEntityToListDto(List<Customer> collectionCustomer);
 
-    List<Customer> listDtoToListEntity(List<CustomerDto> collectionDto);
+    List<Customer> listDtoToListEntity(List<CustomerResponse> collectionDto);
 
 }

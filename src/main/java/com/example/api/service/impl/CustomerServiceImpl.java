@@ -1,10 +1,12 @@
-package com.example.api.service;
+package com.example.api.service.impl;
 
 import com.example.api.domain.Customer;
-import com.example.api.domain.dto.CustomerDto;
+import com.example.api.domain.dto.CustomerRequest;
+import com.example.api.domain.dto.CustomerResponse;
 import com.example.api.mapper.CustomerMapper;
 import com.example.api.repository.CustomerRepository;
 import com.example.api.repository.CustomerSpecification;
+import com.example.api.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,12 +20,12 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
 	private final CustomerRepository repository;
 	private final CustomerMapper mapper;
 
-	public Page<CustomerDto> findAll(String name, String email, String gender, Pageable pageable) {
+	public Page<CustomerResponse> findAll(String name, String email, String gender, Pageable pageable) {
 		Specification<Customer> spec = Specification.where(null);
 		if (Objects.nonNull(name)) {
 			spec = spec.and(CustomerSpecification.name(name));
@@ -35,30 +37,38 @@ public class CustomerServiceImpl implements CustomerService{
 			spec = spec.and(CustomerSpecification.gender(gender));
 		}
 
-		return convertCustomerPageInCustomerDtoPage(pageable, spec);
+		return convertCustomerPageInCustomerResponsePage(pageable, spec);
 	}
 
-	public Optional<CustomerDto> findById(Long id) {
+	public Optional<CustomerResponse> findById(Long id) {
  		return repository.findById(id).map(mapper::entityToDto);
 	}
 
-	public List<CustomerDto> findByName(String name) {
+	public List<CustomerResponse> findByName(String name) {
 		return mapper.listEntityToListDto(repository.findByNameStartingWith(name));
 	}
 
-	public CustomerDto findByEmail(String email) {
+	public CustomerResponse findByEmail(String email) {
 		return mapper.entityToDto(repository.findByEmail(email));
 	}
 
-	public List<CustomerDto> findByGender(String gender) {
+	public List<CustomerResponse> findByGender(String gender) {
 		return mapper.listEntityToListDto(repository.findByGender(gender));
 	}
 
-	private Page<CustomerDto> convertCustomerPageInCustomerDtoPage(Pageable pageable, Specification<Customer> spec) {
+	private Page<CustomerResponse> convertCustomerPageInCustomerResponsePage(Pageable pageable, Specification<Customer> spec) {
 		Page<Customer> customerPage = repository.findAll(spec, pageable);
 		List<Customer> customerList = customerPage.getContent();
-		List<CustomerDto> customerDtoList = mapper.listEntityToListDto(customerList);
-		return new PageImpl<>(customerDtoList, pageable, customerDtoList.size());
+		List<CustomerResponse> customerResponseList = mapper.listEntityToListDto(customerList);
+		return new PageImpl<>(customerResponseList, pageable, customerResponseList.size());
 	}
 
+	public Long save(CustomerRequest request) {
+		Customer customer = Customer.builder()
+				.name(request.getName())
+				.email(request.getEmail())
+				.gender(request.getGender())
+				.build();
+		return repository.save(customer).getId();
+	}
 }
