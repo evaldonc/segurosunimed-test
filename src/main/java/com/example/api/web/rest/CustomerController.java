@@ -41,4 +41,14 @@ public class CustomerController implements CustomerControllerInterface {
 		return ResponseEntity.ok(service.save(request));
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<Long> update(@RequestBody @Valid CustomerRequest request, @PathVariable Long id) {
+		return ResponseEntity.ok(service.update(request, id));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable Long id) {
+		return ResponseEntity.ok(service.delete(id));
+	}
+
 }
