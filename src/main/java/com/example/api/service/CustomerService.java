@@ -1,41 +1,22 @@
 package com.example.api.service;
 
 import com.example.api.domain.dto.CustomerDto;
-import com.example.api.mapper.CustomerMapper;
-import com.example.api.repository.CustomerRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@AllArgsConstructor
-public class CustomerService {
+public interface CustomerService {
 
-	private final CustomerRepository repository;
-	private final CustomerMapper mapper;
+    Page<CustomerDto> findAll(String nome, String email, String gender, Pageable pageable);
 
-	public List<CustomerDto> findAll() {
-		return mapper.listEntityToListDto(repository.findAllByOrderByNameAsc());
-	}
+    Optional<CustomerDto> findById(Long id);
 
-	public Optional<CustomerDto> findById(Long id) {
- 		return repository.findById(id).map(mapper::entityToDto);
-	}
+    List<CustomerDto> findByName(String name);
 
-	public List<CustomerDto> findByName(String name) {
-		return mapper.listEntityToListDto(repository.findByNameStartingWith(name));
-	}
+    CustomerDto findByEmail(String email);
 
-	public CustomerDto findByEmail(String email) {
-		return mapper.entityToDto(repository.findByEmail(email));
-	}
-
-	public List<CustomerDto> findByGender(String gender) {
-		return mapper.listEntityToListDto(repository.findByGender(gender));
-	}
+    List<CustomerDto> findByGender(String gender);
 
 }
