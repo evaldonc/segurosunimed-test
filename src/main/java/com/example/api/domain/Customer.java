@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Setter
@@ -31,6 +32,9 @@ public class Customer {
 	@NotEmpty
 	private String gender;
 
+	@OneToMany
+	@JoinColumn(name = "customerId", referencedColumnName = "id", insertable = false, updatable = false)
+	private List<Address> addresses;
 
 }
 

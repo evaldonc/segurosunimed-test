@@ -4,3 +4,18 @@ CREATE TABLE IF NOT EXISTS CUSTOMER (
     email VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS ADDRESS (
+     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+     customerId BIGINT REFERENCES CUSTOMER (id),
+     cep VARCHAR(9) NOT NULL,
+     logradouro VARCHAR(255) NOT NULL,
+     complemento VARCHAR(255),
+     bairro VARCHAR(255) NOT NULL,
+     localidade VARCHAR(255) NOT NULL,
+     uf CHAR(2) NOT NULL,
+     ibge BIGINT,
+     gia BIGINT,
+     ddd BIGINT,
+     siafi BIGINT
+);

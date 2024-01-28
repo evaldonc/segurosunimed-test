@@ -6,14 +6,13 @@ import com.example.api.domain.dto.CustomerResponse;
 import com.example.api.exception.BusinessException;
 import com.example.api.mapper.CustomerMapper;
 import com.example.api.repository.CustomerRepository;
-import com.example.api.repository.CustomerSpecification;
+import com.example.api.repository.spec.CustomerSpecification;
 import com.example.api.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private final CustomerMapper mapper;
 
 	@Override
-	public Page<CustomerResponse> findAll(String name, String email, String gender, Pageable pageable) {
+	public Page<CustomerResponse> findAll(String name, String email, String gender, String city, String state, Pageable pageable) {
 		Specification<Customer> spec = Specification.where(null);
 		if (Objects.nonNull(name)) {
 			spec = spec.and(CustomerSpecification.name(name));
@@ -39,28 +38,19 @@ public class CustomerServiceImpl implements CustomerService {
 		if (Objects.nonNull(gender)) {
 			spec = spec.and(CustomerSpecification.gender(gender));
 		}
+		if (Objects.nonNull(city)) {
+			spec = spec.and(CustomerSpecification.city(city));
+		}
+		if (Objects.nonNull(state)) {
+			spec = spec.and(CustomerSpecification.uf(state));
+		}
 
 		return convertCustomerPageInCustomerResponsePage(pageable, spec);
 	}
 
 	@Override
 	public Optional<CustomerResponse> findById(Long id) {
- 		return repository.findById(id).map(mapper::entityToDto);
-	}
-
-	@Override
-	public List<CustomerResponse> findByName(String name) {
-		return mapper.listEntityToListDto(repository.findByNameStartingWith(name));
-	}
-
-	@Override
-	public CustomerResponse findByEmail(String email) {
-		return mapper.entityToDto(repository.findByEmail(email));
-	}
-
-	@Override
-	public List<CustomerResponse> findByGender(String gender) {
-		return mapper.listEntityToListDto(repository.findByGender(gender));
+ 		return repository.findById(id).map(mapper::entityToResponse);
 	}
 
 	@Override
@@ -78,11 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Long save(CustomerRequest request) {
-		Customer customer = Customer.builder()
-				.name(request.getName())
-				.email(request.getEmail())
-				.gender(request.getGender())
-				.build();
+		Customer customer = mapper.requestToEntity(request);
 		return repository.save(customer).getId();
 	}
 
@@ -90,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private Page<CustomerResponse> convertCustomerPageInCustomerResponsePage(Pageable pageable, Specification<Customer> spec) {
 		Page<Customer> customerPage = repository.findAll(spec, pageable);
 		List<Customer> customerList = customerPage.getContent();
-		List<CustomerResponse> customerResponseList = mapper.listEntityToListDto(customerList);
+		List<CustomerResponse> customerResponseList = mapper.listEntityToListResponse(customerList);
 		return new PageImpl<>(customerResponseList, pageable, customerResponseList.size());
 	}
 

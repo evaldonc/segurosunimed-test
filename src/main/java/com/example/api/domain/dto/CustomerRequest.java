@@ -3,7 +3,7 @@ package com.example.api.domain.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
+import javax.validation.constraints.*;
 
 @Data
 @Builder
@@ -11,13 +11,17 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 public class CustomerRequest {
 
-    @NonNull
+    @Size(min=2, max=100)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Email
+    @Size(max=256)
+    @NotBlank(message = "e-Mail is mandatory")
     private String email;
 
-    @NonNull
+    @NotBlank
+    @Size(min=1, max=1)
     private String gender;
 
 }

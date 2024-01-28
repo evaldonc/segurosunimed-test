@@ -4,7 +4,7 @@ import com.example.api.domain.dto.CustomerRequest;
 import com.example.api.domain.dto.CustomerResponse;
 import com.example.api.service.impl.CustomerServiceImpl;
 import com.example.api.web.rest.impl.CustomerControllerInterface;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,18 +16,19 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/customers")
+@AllArgsConstructor
 public class CustomerController implements CustomerControllerInterface {
 
 	private final CustomerServiceImpl service;
 
-	@Autowired
-	public CustomerController(CustomerServiceImpl service) {
-		this.service = service;
-	}
-
 	@GetMapping
-	public ResponseEntity<Page<CustomerResponse>> findAll(@RequestParam(required = false) String name, @RequestParam(required = false) String email, @RequestParam(required = false) String gender, Pageable pageable) {
-		return new ResponseEntity<>(service.findAll(name, email, gender, pageable), HttpStatus.OK);
+	public ResponseEntity<Page<CustomerResponse>> findAll(@RequestParam(required = false) String name,
+														  @RequestParam(required = false) String email,
+														  @RequestParam(required = false) String gender,
+														  @RequestParam(required = false) String city,
+														  @RequestParam(required = false) String state,
+														  Pageable pageable) {
+		return new ResponseEntity<>(service.findAll(name, email, gender, city, state, pageable), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")

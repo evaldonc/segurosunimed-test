@@ -28,4 +28,7 @@ Obs.: Será um diferencial implementações como: tratamento de exceções (Rest
 2. Inclui o MapStruct no projeto para fazer a conversão de entity para dto, assim não expondo as entities.
 3. Fiz a documentação Swagger dos endpoints usando o springdoc-openapi-ui
 4. Filtros criados utilizando specification interface
-5. 
+5. Novos endpoints criados: criar, editar e deletar
+6. Validation adicionado na classe de request
+7. Paginação incluída
+8. 

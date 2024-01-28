@@ -1,10 +1,16 @@
 package com.example.api.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerResponse {
 
 	private Long id;
@@ -14,5 +20,7 @@ public class CustomerResponse {
 	private String email;
 
 	private String gender;
+
+	private List<AddressResponse> addresses;
 
 }
