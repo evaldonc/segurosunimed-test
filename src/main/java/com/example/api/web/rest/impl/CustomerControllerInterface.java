@@ -3,6 +3,7 @@ package com.example.api.web.rest.impl;
 import com.example.api.domain.dto.CustomerRequest;
 import com.example.api.domain.dto.CustomerResponse;
 import com.example.api.exception.BusinessException;
+import com.example.api.exception.CustomerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -93,7 +94,7 @@ public interface CustomerControllerInterface {
                             schema = @Schema(implementation = String.class))}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BusinessException.class))}),
+                            schema = @Schema(implementation = CustomerNotFoundException.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})

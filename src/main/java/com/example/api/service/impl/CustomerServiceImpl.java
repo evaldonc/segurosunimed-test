@@ -3,7 +3,7 @@ package com.example.api.service.impl;
 import com.example.api.domain.Customer;
 import com.example.api.domain.dto.CustomerRequest;
 import com.example.api.domain.dto.CustomerResponse;
-import com.example.api.exception.BusinessException;
+import com.example.api.exception.CustomerNotFoundException;
 import com.example.api.mapper.CustomerMapper;
 import com.example.api.repository.CustomerRepository;
 import com.example.api.repository.spec.CustomerSpecification;
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 					customer.setGender(request.getGender());
 					return repository.save(customer).getId();
 				})
-				.orElseThrow( () -> new BusinessException("Customer not found with id=" + id.toString()) );
+				.orElseThrow(CustomerNotFoundException::new);
         return null;
     }
 
@@ -86,7 +86,7 @@ public class CustomerServiceImpl implements CustomerService {
 			repository.deleteById(id);
 			return "Customer deleted";
 		} catch (Exception e) {
-			return "Customer not deleted";
+			throw new CustomerNotFoundException();
 		}
 	}
 
