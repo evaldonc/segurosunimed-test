@@ -17,6 +17,6 @@ public interface CustomerService {
 
     Long update(CustomerRequest request, Long id);
 
-    String delete(Long id);
+    void delete(Long id);
 
 }

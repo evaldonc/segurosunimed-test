@@ -27,7 +27,7 @@ public interface CustomerControllerInterface {
                             schema = @Schema(implementation = CustomerResponse.class))}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BusinessException.class))}),
+                            schema = @Schema(implementation = CustomerNotFoundException.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})
@@ -53,7 +53,7 @@ public interface CustomerControllerInterface {
                             schema = @Schema(implementation = CustomerResponse.class))}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BusinessException.class))}),
+                            schema = @Schema(implementation = CustomerNotFoundException.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})
@@ -67,7 +67,7 @@ public interface CustomerControllerInterface {
                             schema = @Schema(implementation = Long.class))}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BusinessException.class))}),
+                            schema = @Schema(implementation = CustomerNotFoundException.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})
@@ -80,7 +80,7 @@ public interface CustomerControllerInterface {
                             schema = @Schema(implementation = Long.class))}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BusinessException.class))}),
+                            schema = @Schema(implementation = CustomerNotFoundException.class))}),
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})
@@ -90,8 +90,7 @@ public interface CustomerControllerInterface {
     @Operation(summary = "Delete customer by id", description = "Delete customer by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = {@Content(mediaType = "text/plain",
-                            schema = @Schema(implementation = String.class))}),
+                    content = {@Content(mediaType = "application/json")}),
             @ApiResponse(responseCode = "404", description = "Not Found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CustomerNotFoundException.class))}),
@@ -99,6 +98,6 @@ public interface CustomerControllerInterface {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusinessException.class))})})
     @Parameter(name = "id", description = "Customer id")
-    ResponseEntity<String> delete(@PathVariable Long id);
+    ResponseEntity delete(@PathVariable Long id);
 
 }

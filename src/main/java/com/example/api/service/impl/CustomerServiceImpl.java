@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Optional<CustomerResponse> findById(Long id) {
- 		return repository.findById(id).map(mapper::entityToResponse);
+ 		return Optional.ofNullable(repository.findById(id).map(mapper::entityToResponse).orElseThrow(() -> new CustomerNotFoundException()));
 	}
 
 	@Override
@@ -81,13 +81,11 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String delete(Long id) {
-		try {
-			repository.deleteById(id);
-			return "Customer deleted";
-		} catch (Exception e) {
+	public void delete(Long id) {
+		if (!repository.existsById(id)) {
 			throw new CustomerNotFoundException();
 		}
+		repository.deleteById(id);
 	}
 
 }
