@@ -31,4 +31,3 @@ Obs.: Será um diferencial implementações como: tratamento de exceções (Rest
 5. Novos endpoints criados: criar, editar e deletar
 6. Validation adicionado na classe de request
 7. Paginação incluída
-8. 
