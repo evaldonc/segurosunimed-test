@@ -31,3 +31,6 @@ Obs.: Será um diferencial implementações como: tratamento de exceções (Rest
 5. Novos endpoints criados: criar, editar e deletar
 6. Validation adicionado na classe de request
 7. Paginação incluída
+8. Cadastramento de múltiplos endereços feita
+9. Cadastramento de endereço a partir do cep feita
+10. Filtros adicionados
