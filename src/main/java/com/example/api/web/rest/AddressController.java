@@ -1,6 +1,5 @@
 package com.example.api.web.rest;
 
-import com.example.api.domain.Address;
 import com.example.api.domain.dto.AddressRequest;
 import com.example.api.domain.dto.AddressResponse;
 import com.example.api.domain.dto.AddressViaCep;

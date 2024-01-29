@@ -28,7 +28,7 @@ public class CustomerController implements CustomerControllerInterface {
 														  @RequestParam(required = false) String city,
 														  @RequestParam(required = false) String state,
 														  Pageable pageable) {
-		return new ResponseEntity<>(service.findAll(name, email, gender, city, state, pageable), HttpStatus.OK);
+		return ResponseEntity.ok().body(service.findAll(name, email, gender, city, state, pageable));
 	}
 
 	@GetMapping("/{id}")

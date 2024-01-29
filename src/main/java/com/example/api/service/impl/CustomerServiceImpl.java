@@ -28,34 +28,19 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Page<CustomerResponse> findAll(String name, String email, String gender, String city, String state, Pageable pageable) {
-		Specification<Customer> spec = Specification.where(null);
-		if (Objects.nonNull(name)) {
-			spec = spec.and(CustomerSpecification.name(name));
-		}
-		if (Objects.nonNull(email)) {
-			spec = spec.and(CustomerSpecification.email(email));
-		}
-		if (Objects.nonNull(gender)) {
-			spec = spec.and(CustomerSpecification.gender(gender));
-		}
-		if (Objects.nonNull(city)) {
-			spec = spec.and(CustomerSpecification.city(city));
-		}
-		if (Objects.nonNull(state)) {
-			spec = spec.and(CustomerSpecification.uf(state));
-		}
+		Specification<Customer> spec = getCustomerSpecification(name, email, gender, city, state);
 
 		return convertCustomerPageInCustomerResponsePage(pageable, spec);
 	}
 
 	@Override
 	public Optional<CustomerResponse> findById(Long id) {
- 		return Optional.ofNullable(repository.findById(id).map(mapper::entityToResponse).orElseThrow(() -> new CustomerNotFoundException()));
+ 		return Optional.ofNullable(repository.findById(id).map(mapper::entityToResponse).orElseThrow(CustomerNotFoundException::new));
 	}
 
 	@Override
 	public Long update(CustomerRequest request, Long id) {
-		repository.findById(id)
+		return repository.findById(id)
 				.map(customer -> {
 					customer.setName(request.getName());
 					customer.setEmail(request.getEmail());
@@ -63,7 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
 					return repository.save(customer).getId();
 				})
 				.orElseThrow(CustomerNotFoundException::new);
-        return null;
     }
 
 	@Override
@@ -86,6 +70,26 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new CustomerNotFoundException();
 		}
 		repository.deleteById(id);
+	}
+
+	private static Specification<Customer> getCustomerSpecification(String name, String email, String gender, String city, String state) {
+		Specification<Customer> spec = Specification.where(null);
+		if (Objects.nonNull(name)) {
+			spec = spec.and(CustomerSpecification.name(name));
+		}
+		if (Objects.nonNull(email)) {
+			spec = spec.and(CustomerSpecification.email(email));
+		}
+		if (Objects.nonNull(gender)) {
+			spec = spec.and(CustomerSpecification.gender(gender));
+		}
+		if (Objects.nonNull(city)) {
+			spec = spec.and(CustomerSpecification.city(city));
+		}
+		if (Objects.nonNull(state)) {
+			spec = spec.and(CustomerSpecification.uf(state));
+		}
+		return spec;
 	}
 
 }
