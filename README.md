@@ -34,3 +34,5 @@ Obs.: Será um diferencial implementações como: tratamento de exceções (Rest
 8. Cadastramento de múltiplos endereços feita
 9. Cadastramento de endereço a partir do cep feita
 10. Filtros adicionados
+11. A url da documentação Swagger é http://localhost:8080/swagger-ui/index.html 
+
