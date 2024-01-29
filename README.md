@@ -3,7 +3,7 @@
 ### Requisitos
 
 1. JDK 11
-1. Maven 3
+2. Maven 3
 
 ### Comandos Prova Prática
 
@@ -22,3 +22,13 @@
 
 Obs.: Será um diferencial implementações como: tratamento de exceções (RestControllerAdvice), testes, validações, uso de mecanismos modernos da linguagem, frontend, autenticação e documentação. 
 
+
+### Execução por Evaldo
+1. Inclui o Lombok no projeto para facilitar a criação de getters/setters e construtores.
+2. Inclui o MapStruct no projeto para fazer a conversão de entity para dto, assim não expondo as entities.
+3. Fiz a documentação Swagger dos endpoints usando o springdoc-openapi-ui
+4. Filtros criados utilizando specification interface
+5. Novos endpoints criados: criar, editar e deletar
+6. Validation adicionado na classe de request
+7. Paginação incluída
+8. 
