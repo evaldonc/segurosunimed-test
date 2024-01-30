@@ -5,12 +5,15 @@ import com.example.api.domain.dto.AddressRequest;
 import com.example.api.domain.dto.AddressResponse;
 import com.example.api.domain.dto.AddressViaCep;
 import com.example.api.exception.BusinessException;
+import com.example.api.exception.CustomerNotFoundException;
 import com.example.api.mapper.AddressMapper;
 import com.example.api.repository.AddressRepository;
+import com.example.api.repository.CustomerRepository;
 import com.example.api.service.AddressService;
 import com.example.api.web.rest.ViaCepClient;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,8 @@ import java.util.Objects;
 public class AddressServiceImpl implements AddressService {
 
     private AddressRepository repository;
+
+    private CustomerRepository customerRepository;
 
     private AddressMapper mapper;
 
@@ -35,6 +40,9 @@ public class AddressServiceImpl implements AddressService {
     public Long save(AddressRequest request) {
         if (Objects.isNull(request) || isAllNull(request)) {
             throw new BusinessException("Address is mandatory");
+        }
+        if (!customerRepository.existsById(request.getCustomerId())) {
+            throw new CustomerNotFoundException();
         }
 
         if (isOnlyCepNotNull(request)) {
