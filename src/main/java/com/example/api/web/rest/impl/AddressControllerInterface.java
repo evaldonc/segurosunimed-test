@@ -32,7 +32,8 @@ public interface AddressControllerInterface {
     @Parameter(name = "customerId", description = "Customer id")
     ResponseEntity<List<AddressResponse>> findAddressByCustomerId(@PathVariable Long customerId);
 
-    @Operation(summary = "Save customer's address", description = "Save customer's address")
+    @Operation(summary = "Save customer's address", description = "To create an address using only the CEP, " +
+            "you only need to pass the customer ID and the CEP number, other fields must be null.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = {@Content(mediaType = "application/json",
